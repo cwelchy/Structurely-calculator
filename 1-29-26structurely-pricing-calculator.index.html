@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Structurely Pricing Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+      font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #e2e8f0;
+      padding: 32px;
+    }
+    
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+    
+    input[type="number"], input[type="text"] {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      color: #e2e8f0;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 14px;
+      width: 100%;
+      transition: all 0.2s;
+    }
+    
+    input[type="number"]:focus, input[type="text"]:focus {
+      outline: none;
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    }
+    
+    .btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      font-family: 'IBM Plex Sans', sans-serif;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+    }
+    
+    .btn-secondary {
+      background: rgba(148, 163, 184, 0.1);
+      color: #94a3b8;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(148, 163, 184, 0.2);
+      color: #e2e8f0;
+    }
+    
+    .btn-scenario {
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      background: rgba(30, 41, 59, 0.6);
+      color: #94a3b8;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .btn-scenario.active {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+      border-color: transparent;
+    }
+    
+    .btn-scenario:hover:not(.active) {
+      background: rgba(59, 130, 246, 0.2);
+      border-color: #3b82f6;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+    }
+    
+    th {
+      text-align: left;
+      padding: 12px 16px;
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+    }
+    
+    td {
+      padding: 16px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.05);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 14px;
+    }
+    
+    tr:hover td {
+      background: rgba(59, 130, 246, 0.05);
+    }
+    
+    .card {
+      background: rgba(30, 41, 59, 0.5);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(148, 163, 184, 0.1);
+      border-radius: 16px;
+      padding: 24px;
+    }
+    
+    .label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: #64748b;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #94a3b8;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    
+    .metric-value {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 24px;
+      font-weight: 600;
+    }
+    
+    .input-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 16px;
+    }
+    
+    .warning {
+      background: rgba(234, 179, 8, 0.1);
+      border: 1px solid rgba(234, 179, 8, 0.3);
+      color: #eab308;
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+    
+    .header {
+      margin-bottom: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    
+    .header h1 {
+      font-size: 32px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .header p {
+      color: #64748b;
+      margin-top: 8px;
+      font-size: 14px;
+    }
+    
+    .header-buttons {
+      display: flex;
+      gap: 12px;
+    }
+    
+    .main-grid {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 24px;
+    }
+    
+    @media (max-width: 1200px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .left-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .blended-cost-box {
+      margin-top: 16px;
+      padding: 12px;
+      background: rgba(59, 130, 246, 0.1);
+      border-radius: 8px;
+    }
+    
+    .blended-cost-label {
+      font-size: 11px;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+    
+    .blended-cost-value {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 20px;
+      color: #3b82f6;
+    }
+    
+    .scenario-buttons {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    
+    .summary-card {
+      background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+    }
+    
+    .summary-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    
+    .gm-badge {
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+    
+    .table-container {
+      overflow-x: auto;
+    }
+    
+    .overage-section {
+      margin-top: 24px;
+      padding: 16px;
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 8px;
+    }
+    
+    .overage-grid {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    
+    .overage-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .overage-label {
+      font-size: 13px;
+      color: #64748b;
+    }
+    
+    .source-truth {
+      margin-top: 24px;
+      padding: 16px;
+      background: rgba(59, 130, 246, 0.05);
+      border-radius: 8px;
+      border: 1px solid rgba(59, 130, 246, 0.1);
+    }
+    
+    .source-truth-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #64748b;
+      margin-bottom: 12px;
+    }
+    
+    .source-truth-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      font-size: 13px;
+    }
+    
+    @media (max-width: 800px) {
+      .source-truth-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .source-truth-item {
+      padding: 12px;
+      background: rgba(30, 41, 59, 0.5);
+      border-radius: 6px;
+    }
+    
+    .source-truth-item.dimmed {
+      opacity: 0.6;
+    }
+    
+    .source-truth-channel {
+      color: #94a3b8;
+      margin-bottom: 4px;
+    }
+    
+    .source-truth-values {
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    
+    .source-truth-tokens {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #94a3b8;
+      font-weight: 500;
+      padding-top: 8px;
+      border-top: 1px solid rgba(148, 163, 184, 0.1);
+    }
+    
+    .q2-badge {
+      font-size: 10px;
+      background: rgba(59, 130, 246, 0.2);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #3b82f6;
+    }
+    
+    .text-green { color: #22c55e; }
+    .text-red { color: #ef4444; }
+    .text-blue { color: #3b82f6; }
+    .text-yellow { color: #f59e0b; }
+    .text-gray { color: #64748b; }
+    .text-muted { color: #94a3b8; }
+    
+    .totals-row {
+      background: rgba(59, 130, 246, 0.05);
+    }
+    
+    .totals-row td {
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div>
+        <h1>Pricing Plan Calculator</h1>
+        <p>Unit Economics & Gross Margin Analysis</p>
+      </div>
+      <div class="header-buttons">
+        <button class="btn btn-secondary" onclick="resetDefaults()">Reset Defaults</button>
+        <button class="btn btn-primary" onclick="copyAsCSV()">Copy as CSV</button>
+      </div>
+    </div>
+
+    <div class="main-grid">
+      <!-- Left Panel -->
+      <div class="left-panel">
+        <!-- Token Settings -->
+        <div class="card">
+          <div class="section-title">Token Settings</div>
+          <div class="input-grid">
+            <div>
+              <label class="label">Seconds per Token</label>
+              <input type="number" id="tokenSeconds" value="10" min="1" onchange="recalculate()">
+            </div>
+            <div>
+              <label class="label">Token Price ($)</label>
+              <input type="number" id="tokenPrice" value="0.10" step="0.01" min="0" onchange="recalculate()">
+            </div>
+          </div>
+        </div>
+
+        <!-- Channel Costs -->
+        <div class="card">
+          <div class="section-title">Channel Unit Costs</div>
+          <div class="input-grid">
+            <div>
+              <label class="label">Voice (per 20s)</label>
+              <input type="number" id="voiceCostPer20s" value="0.0879" step="0.0001" min="0" onchange="recalculate()">
+            </div>
+            <div>
+              <label class="label">SMS (per token)</label>
+              <input type="number" id="smsCostPerToken" value="0.049" step="0.0001" min="0" onchange="recalculate()">
+            </div>
+            <div>
+              <label class="label">Email (per token)</label>
+              <input type="number" id="emailCostPerToken" value="0.06" step="0.0001" min="0" onchange="recalculate()">
+            </div>
+          </div>
+          <div class="blended-cost-box">
+            <div class="blended-cost-label">Blended Cost per Token</div>
+            <div class="blended-cost-value" id="blendedCost">$0.0466</div>
+          </div>
+        </div>
+
+        <!-- Channel Mix -->
+        <div class="card">
+          <div class="section-title">Channel Mix</div>
+          <div class="scenario-buttons">
+            <button class="btn-scenario" data-scenario="allText" onclick="applyScenario('allText')">All Text</button>
+            <button class="btn-scenario active" data-scenario="balanced" onclick="applyScenario('balanced')">Balanced (51/49)</button>
+            <button class="btn-scenario" data-scenario="allVoice" onclick="applyScenario('allVoice')">All Voice</button>
+          </div>
+          <div class="input-grid">
+            <div>
+              <label class="label">Voice %</label>
+              <input type="number" id="mixVoice" value="51" min="0" max="100" onchange="recalculate(); clearScenario()">
+            </div>
+            <div>
+              <label class="label">SMS %</label>
+              <input type="number" id="mixSms" value="49" min="0" max="100" onchange="recalculate(); clearScenario()">
+            </div>
+            <div>
+              <label class="label">Email % <span class="text-gray" style="font-size:10px;font-weight:400">(Q2)</span></label>
+              <input type="number" id="mixEmail" value="0" min="0" max="100" onchange="recalculate(); clearScenario()">
+            </div>
+          </div>
+          <div id="mixWarning" class="warning" style="display:none">
+            ⚠️ Mix totals <span id="mixTotal">100</span>% — will auto-normalize to 100%
+          </div>
+        </div>
+
+        <!-- Portfolio Summary -->
+        <div class="card summary-card">
+          <div class="section-title">Portfolio Summary</div>
+          <div class="summary-grid">
+            <div>
+              <div class="label">Total Monthly Revenue</div>
+              <div class="metric-value text-green" id="totalRevenue">$36,496</div>
+            </div>
+            <div>
+              <div class="label">Total ARR</div>
+              <div class="metric-value text-blue" id="totalARR">$437,952</div>
+            </div>
+            <div>
+              <div class="label">Total Gross Profit</div>
+              <div class="metric-value text-yellow" id="totalProfit">$15,513</div>
+            </div>
+            <div>
+              <div class="label">Blended GM%</div>
+              <div class="metric-value" id="totalGM">42.5%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Panel -->
+      <div class="card" style="overflow:hidden">
+        <div class="section-title" style="margin-bottom:20px">Plan Economics</div>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Plan</th>
+                <th>Price</th>
+                <th>Included</th>
+                <th>Actual</th>
+                <th>Overage</th>
+                <th>Revenue</th>
+                <th>COGS</th>
+                <th>Profit</th>
+                <th>GM%</th>
+                <th>AI Hours</th>
+                <th>ARR</th>
+              </tr>
+            </thead>
+            <tbody id="plansTable">
+              <!-- Populated by JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Overage Pricing -->
+        <div class="overage-section">
+          <div class="section-title" style="margin-bottom:12px">Overage Pricing (per token)</div>
+          <div class="overage-grid" id="overageInputs">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Source of Truth -->
+        <div class="source-truth">
+          <div class="source-truth-label">Source of Truth Reference</div>
+          <div class="source-truth-grid">
+            <div class="source-truth-item">
+              <div class="source-truth-channel">Voice (20s)</div>
+              <div class="source-truth-values">
+                <span class="text-green">$0.20 rev</span> · <span class="text-red">$0.0879 cost</span> · <span class="text-blue">56% GM</span>
+              </div>
+              <div class="source-truth-tokens">2 tokens</div>
+            </div>
+            <div class="source-truth-item">
+              <div class="source-truth-channel">SMS</div>
+              <div class="source-truth-values">
+                <span class="text-green">$0.10 rev</span> · <span class="text-red">$0.049 cost</span> · <span class="text-blue">51% GM</span>
+              </div>
+              <div class="source-truth-tokens">1 token</div>
+            </div>
+            <div class="source-truth-item dimmed">
+              <div class="source-truth-channel">Email (2) <span class="q2-badge">Q2</span></div>
+              <div class="source-truth-values">
+                <span class="text-green">$0.10 rev</span> · <span class="text-red">$0.06 cost</span> · <span class="text-blue">40% GM</span>
+              </div>
+              <div class="source-truth-tokens">1 token</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Default values
+    const DEFAULTS = {
+      tokenSeconds: 10,
+      tokenPrice: 0.10,
+      voiceCostPer20s: 0.0879,
+      smsCostPerToken: 0.049,
+      emailCostPerToken: 0.06,
+      voiceTokensPerUnit: 2,
+      mixVoice: 51,
+      mixSms: 49,
+      mixEmail: 0,
+    };
+
+    const SCENARIOS = {
+      allText: { voice: 0, sms: 100, email: 0 },
+      balanced: { voice: 51, sms: 49, email: 0 },
+      allVoice: { voice: 100, sms: 0, email: 0 },
+    };
+
+    let plans = [
+      { id: 1, name: 'Starter', price: 2499, includedTokens: 20000, overagePrice: 0.10, actualTokens: 20000 },
+      { id: 2, name: 'Growth', price: 4999, includedTokens: 60000, overagePrice: 0.09, actualTokens: 60000 },
+      { id: 3, name: 'Scale', price: 8999, includedTokens: 120000, overagePrice: 0.08, actualTokens: 120000 },
+      { id: 4, name: 'Enterprise', price: 19999, includedTokens: 275000, overagePrice: 0.07, actualTokens: 275000 },
+    ];
+
+    // Formatters
+    const formatCurrency = (val) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(val);
+    const formatCurrencyPrecise = (val) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 4 }).format(val);
+    const formatPercent = (val) => `${(val * 100).toFixed(1)}%`;
+    const formatNumber = (val) => new Intl.NumberFormat('en-US').format(val);
+
+    function getMarginColor(margin) {
+      if (margin < 0.5) return '#ef4444';
+      if (margin < 0.65) return '#eab308';
+      return '#22c55e';
+    }
+
+    function getInputValue(id) {
+      return parseFloat(document.getElementById(id).value) || 0;
+    }
+
+    function recalculate() {
+      const tokenSeconds = getInputValue('tokenSeconds');
+      const tokenPrice = getInputValue('tokenPrice');
+      const voiceCostPer20s = getInputValue('voiceCostPer20s');
+      const smsCostPerToken = getInputValue('smsCostPerToken');
+      const emailCostPerToken = getInputValue('emailCostPerToken');
+      const mixVoice = getInputValue('mixVoice');
+      const mixSms = getInputValue('mixSms');
+      const mixEmail = getInputValue('mixEmail');
+
+      // Normalize mix
+      const mixTotal = mixVoice + mixSms + mixEmail;
+      const mixWarning = document.getElementById('mixWarning');
+      const mixTotalSpan = document.getElementById('mixTotal');
+      
+      if (Math.abs(mixTotal - 100) > 0.01) {
+        mixWarning.style.display = 'block';
+        mixTotalSpan.textContent = mixTotal;
+      } else {
+        mixWarning.style.display = 'none';
+      }
+
+      const normalizedMix = mixTotal === 0 
+        ? { voice: 0.333, sms: 0.333, email: 0.334 }
+        : { voice: mixVoice / mixTotal, sms: mixSms / mixTotal, email: mixEmail / mixTotal };
+
+      // Calculate blended cost
+      const voiceCostPerToken = voiceCostPer20s / DEFAULTS.voiceTokensPerUnit;
+      const blendedCostPerToken = 
+        normalizedMix.voice * voiceCostPerToken + 
+        normalizedMix.sms * smsCostPerToken + 
+        normalizedMix.email * emailCostPerToken;
+
+      document.getElementById('blendedCost').textContent = formatCurrencyPrecise(blendedCostPerToken);
+
+      // Calculate plan economics
+      let totalRevenue = 0, totalCogs = 0, totalProfit = 0, totalHours = 0;
+
+      const tableBody = document.getElementById('plansTable');
+      tableBody.innerHTML = '';
+
+      plans.forEach(plan => {
+        const overageTokens = Math.max(0, plan.actualTokens - plan.includedTokens);
+        const monthlyRevenue = plan.price + (overageTokens * plan.overagePrice);
+        const monthlyCogs = plan.actualTokens * blendedCostPerToken;
+        const grossProfit = monthlyRevenue - monthlyCogs;
+        const grossMargin = monthlyRevenue > 0 ? grossProfit / monthlyRevenue : 0;
+        const aiHours = (plan.actualTokens * tokenSeconds) / 3600;
+        const arr = monthlyRevenue * 12;
+
+        totalRevenue += monthlyRevenue;
+        totalCogs += monthlyCogs;
+        totalProfit += grossProfit;
+        totalHours += aiHours;
+
+        const marginColor = getMarginColor(grossMargin);
+
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>
+            <input type="text" value="${plan.name}" style="width:100px;font-family:'IBM Plex Sans',sans-serif;font-weight:500" 
+              onchange="updatePlan(${plan.id}, 'name', this.value)">
+          </td>
+          <td>
+            <input type="text" inputmode="numeric" value="${plan.price}" style="width:90px" 
+              onchange="updatePlan(${plan.id}, 'price', parseInt(this.value.replace(/[^0-9]/g,''))||0)">
+          </td>
+          <td>
+            <input type="text" inputmode="numeric" value="${plan.includedTokens}" style="width:100px" 
+              onchange="updatePlan(${plan.id}, 'includedTokens', parseInt(this.value.replace(/[^0-9]/g,''))||0)">
+          </td>
+          <td>
+            <input type="text" inputmode="numeric" value="${plan.actualTokens}" style="width:100px" 
+              onchange="updatePlan(${plan.id}, 'actualTokens', parseInt(this.value.replace(/[^0-9]/g,''))||0)">
+          </td>
+          <td style="color:${overageTokens > 0 ? '#f59e0b' : '#64748b'}">${formatNumber(overageTokens)}</td>
+          <td class="text-green">${formatCurrency(monthlyRevenue)}</td>
+          <td class="text-red">${formatCurrency(monthlyCogs)}</td>
+          <td style="color:${grossProfit >= 0 ? '#22c55e' : '#ef4444'}">${formatCurrency(grossProfit)}</td>
+          <td>
+            <span class="gm-badge" style="color:${marginColor};background:${marginColor}20">
+              ${formatPercent(grossMargin)}
+            </span>
+          </td>
+          <td class="text-muted">${aiHours.toFixed(1)}h</td>
+          <td class="text-blue">${formatCurrency(arr)}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+
+      // Totals row
+      const totalGrossMargin = totalRevenue > 0 ? totalProfit / totalRevenue : 0;
+      const totalMarginColor = getMarginColor(totalGrossMargin);
+
+      const totalsRow = document.createElement('tr');
+      totalsRow.className = 'totals-row';
+      totalsRow.innerHTML = `
+        <td colspan="5" class="text-muted">TOTALS</td>
+        <td class="text-green">${formatCurrency(totalRevenue)}</td>
+        <td class="text-red">${formatCurrency(totalCogs)}</td>
+        <td style="color:${totalProfit >= 0 ? '#22c55e' : '#ef4444'}">${formatCurrency(totalProfit)}</td>
+        <td>
+          <span class="gm-badge" style="color:${totalMarginColor};background:${totalMarginColor}20">
+            ${formatPercent(totalGrossMargin)}
+          </span>
+        </td>
+        <td class="text-muted">${totalHours.toFixed(1)}h</td>
+        <td class="text-blue">${formatCurrency(totalRevenue * 12)}</td>
+      `;
+      tableBody.appendChild(totalsRow);
+
+      // Update summary
+      document.getElementById('totalRevenue').textContent = formatCurrency(totalRevenue);
+      document.getElementById('totalARR').textContent = formatCurrency(totalRevenue * 12);
+      document.getElementById('totalProfit').textContent = formatCurrency(totalProfit);
+      const totalGMEl = document.getElementById('totalGM');
+      totalGMEl.textContent = formatPercent(totalGrossMargin);
+      totalGMEl.style.color = totalMarginColor;
+
+      // Update overage inputs
+      renderOverageInputs();
+    }
+
+    function renderOverageInputs() {
+      const container = document.getElementById('overageInputs');
+      container.innerHTML = plans.map(plan => `
+        <div class="overage-item">
+          <span class="overage-label">${plan.name}:</span>
+          <input type="number" value="${plan.overagePrice}" step="0.01" style="width:70px;padding:6px 8px;font-size:13px"
+            onchange="updatePlan(${plan.id}, 'overagePrice', parseFloat(this.value)||0)">
+        </div>
+      `).join('');
+    }
+
+    function updatePlan(id, field, value) {
+      const plan = plans.find(p => p.id === id);
+      if (plan) {
+        plan[field] = value;
+        recalculate();
+      }
+    }
+
+    function applyScenario(key) {
+      const s = SCENARIOS[key];
+      document.getElementById('mixVoice').value = s.voice;
+      document.getElementById('mixSms').value = s.sms;
+      document.getElementById('mixEmail').value = s.email;
+      
+      document.querySelectorAll('.btn-scenario').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.scenario === key);
+      });
+      
+      recalculate();
+    }
+
+    function clearScenario() {
+      document.querySelectorAll('.btn-scenario').forEach(btn => {
+        btn.classList.remove('active');
+      });
+    }
+
+    function resetDefaults() {
+      document.getElementById('tokenSeconds').value = DEFAULTS.tokenSeconds;
+      document.getElementById('tokenPrice').value = DEFAULTS.tokenPrice;
+      document.getElementById('voiceCostPer20s').value = DEFAULTS.voiceCostPer20s;
+      document.getElementById('smsCostPerToken').value = DEFAULTS.smsCostPerToken;
+      document.getElementById('emailCostPerToken').value = DEFAULTS.emailCostPerToken;
+      document.getElementById('mixVoice').value = DEFAULTS.mixVoice;
+      document.getElementById('mixSms').value = DEFAULTS.mixSms;
+      document.getElementById('mixEmail').value = DEFAULTS.mixEmail;
+
+      plans = [
+        { id: 1, name: 'Starter', price: 2499, includedTokens: 20000, overagePrice: 0.10, actualTokens: 20000 },
+        { id: 2, name: 'Growth', price: 4999, includedTokens: 60000, overagePrice: 0.09, actualTokens: 60000 },
+        { id: 3, name: 'Scale', price: 8999, includedTokens: 120000, overagePrice: 0.08, actualTokens: 120000 },
+        { id: 4, name: 'Enterprise', price: 19999, includedTokens: 275000, overagePrice: 0.07, actualTokens: 275000 },
+      ];
+
+      applyScenario('balanced');
+    }
+
+    function copyAsCSV() {
+      const tokenSeconds = getInputValue('tokenSeconds');
+      const headers = ['Plan', 'Monthly Price', 'Included Tokens', 'Actual Tokens', 'Overage Tokens', 'Monthly Revenue', 'Monthly COGS', 'Gross Profit', 'GM%', 'AI Hours', 'ARR'];
+      
+      const voiceCostPer20s = getInputValue('voiceCostPer20s');
+      const smsCostPerToken = getInputValue('smsCostPerToken');
+      const emailCostPerToken = getInputValue('emailCostPerToken');
+      const mixVoice = getInputValue('mixVoice');
+      const mixSms = getInputValue('mixSms');
+      const mixEmail = getInputValue('mixEmail');
+      const mixTotal = mixVoice + mixSms + mixEmail;
+      const normalizedMix = mixTotal === 0 
+        ? { voice: 0.333, sms: 0.333, email: 0.334 }
+        : { voice: mixVoice / mixTotal, sms: mixSms / mixTotal, email: mixEmail / mixTotal };
+      const voiceCostPerToken = voiceCostPer20s / DEFAULTS.voiceTokensPerUnit;
+      const blendedCostPerToken = 
+        normalizedMix.voice * voiceCostPerToken + 
+        normalizedMix.sms * smsCostPerToken + 
+        normalizedMix.email * emailCostPerToken;
+
+      const rows = plans.map(plan => {
+        const overageTokens = Math.max(0, plan.actualTokens - plan.includedTokens);
+        const monthlyRevenue = plan.price + (overageTokens * plan.overagePrice);
+        const monthlyCogs = plan.actualTokens * blendedCostPerToken;
+        const grossProfit = monthlyRevenue - monthlyCogs;
+        const grossMargin = monthlyRevenue > 0 ? grossProfit / monthlyRevenue : 0;
+        const aiHours = (plan.actualTokens * tokenSeconds) / 3600;
+        
+        return [
+          plan.name,
+          plan.price,
+          plan.includedTokens,
+          plan.actualTokens,
+          overageTokens,
+          monthlyRevenue.toFixed(2),
+          monthlyCogs.toFixed(2),
+          grossProfit.toFixed(2),
+          (grossMargin * 100).toFixed(1) + '%',
+          aiHours.toFixed(1),
+          (monthlyRevenue * 12).toFixed(2),
+        ];
+      });
+
+      const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+      navigator.clipboard.writeText(csv).then(() => {
+        alert('CSV copied to clipboard!');
+      });
+    }
+
+    // Initialize
+    recalculate();
+  </script>
+</body>
+</html>
