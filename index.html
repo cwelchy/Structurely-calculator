@@ -368,11 +368,49 @@
     .totals-row td {
       font-weight: 600;
     }
+
+    .margin-breakdown {
+      margin-top: 24px;
+      padding: 16px;
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 8px;
+      border: 1px solid rgba(148, 163, 184, 0.1);
+    }
+    .breakdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .breakdown-item {
+      padding: 12px;
+      background: rgba(30, 41, 59, 0.5);
+      border-radius: 6px;
+      font-size: 12px;
+    }
+    .breakdown-item .plan-name {
+      color: #94a3b8;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-family: 'IBM Plex Sans', sans-serif;
+    }
+    .breakdown-item .breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    .breakdown-item .breakdown-row .label-text {
+      color: #64748b;
+    }
+    .breakdown-divider {
+      border-top: 1px solid rgba(148, 163, 184, 0.1);
+      margin: 6px 0;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <!-- Header -->
     <div class="header">
       <div>
         <h1>Pricing Plan Calculator</h1>
@@ -385,9 +423,7 @@
     </div>
 
     <div class="main-grid">
-      <!-- Left Panel -->
       <div class="left-panel">
-        <!-- Token Settings -->
         <div class="card">
           <div class="section-title">Token Settings</div>
           <div class="input-grid">
@@ -402,7 +438,6 @@
           </div>
         </div>
 
-        <!-- Channel Costs -->
         <div class="card">
           <div class="section-title">Channel Unit Costs</div>
           <div class="input-grid">
@@ -421,11 +456,10 @@
           </div>
           <div class="blended-cost-box">
             <div class="blended-cost-label">Blended Cost per Token</div>
-            <div class="blended-cost-value" id="blendedCost">$0.0466</div>
+            <div class="blended-cost-value" id="blendedCost">$0.0464</div>
           </div>
         </div>
 
-        <!-- Channel Mix -->
         <div class="card">
           <div class="section-title">Channel Mix</div>
           <div class="scenario-buttons">
@@ -452,97 +486,95 @@
           </div>
         </div>
 
-        <!-- Portfolio Summary -->
         <div class="card summary-card">
           <div class="section-title">Portfolio Summary</div>
           <div class="summary-grid">
             <div>
               <div class="label">Total Monthly Revenue</div>
-              <div class="metric-value text-green" id="totalRevenue">$36,496</div>
+              <div class="metric-value text-green" id="totalRevenue">$0</div>
             </div>
             <div>
               <div class="label">Total ARR</div>
-              <div class="metric-value text-blue" id="totalARR">$437,952</div>
+              <div class="metric-value text-blue" id="totalARR">$0</div>
             </div>
             <div>
               <div class="label">Total Gross Profit</div>
-              <div class="metric-value text-yellow" id="totalProfit">$15,513</div>
+              <div class="metric-value text-yellow" id="totalProfit">$0</div>
             </div>
             <div>
               <div class="label">Blended GM%</div>
-              <div class="metric-value" id="totalGM">42.5%</div>
+              <div class="metric-value" id="totalGM">0%</div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Right Panel -->
-      <div class="card" style="overflow:hidden">
-        <div class="section-title" style="margin-bottom:20px">Plan Economics</div>
-        <div class="table-container">
-          <table>
-            <thead>
-              <tr>
-                <th>Plan</th>
-                <th>Price</th>
-                <th>Included</th>
-                <th>Actual</th>
-                <th>Overage</th>
-                <th>Revenue</th>
-                <th>COGS</th>
-                <th>Profit</th>
-                <th>GM%</th>
-                <th>AI Hours</th>
-                <th>ARR</th>
-              </tr>
-            </thead>
-            <tbody id="plansTable">
-              <!-- Populated by JS -->
-            </tbody>
-          </table>
-        </div>
+      <div style="display:flex;flex-direction:column;gap:24px;">
+        <div class="card" style="overflow:hidden">
+          <div class="section-title" style="margin-bottom:20px">Plan Economics</div>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Plan</th>
+                  <th>Price</th>
+                  <th>Included</th>
+                  <th>Actual</th>
+                  <th>Overage Tokens</th>
+                  <th>Revenue</th>
+                  <th>COGS</th>
+                  <th>Profit</th>
+                  <th>GM%</th>
+                  <th>AI Hours</th>
+                  <th>ARR</th>
+                </tr>
+              </thead>
+              <tbody id="plansTable"></tbody>
+            </table>
+          </div>
 
-        <!-- Overage Pricing -->
-        <div class="overage-section">
-          <div class="section-title" style="margin-bottom:12px">Overage Pricing (per token)</div>
-          <div class="overage-grid" id="overageInputs">
-            <!-- Populated by JS -->
+          <div class="overage-section">
+            <div class="section-title" style="margin-bottom:12px">Overage Pricing (per token)</div>
+            <div class="overage-grid" id="overageInputs"></div>
+          </div>
+
+          <div class="source-truth">
+            <div class="source-truth-label">Source of Truth Reference</div>
+            <div class="source-truth-grid">
+              <div class="source-truth-item">
+                <div class="source-truth-channel">Voice (20s)</div>
+                <div class="source-truth-values">
+                  <span class="text-green">$0.20 rev</span> · <span class="text-red">$0.0879 cost</span> · <span class="text-blue">56% GM</span>
+                </div>
+                <div class="source-truth-tokens">2 tokens</div>
+              </div>
+              <div class="source-truth-item">
+                <div class="source-truth-channel">SMS</div>
+                <div class="source-truth-values">
+                  <span class="text-green">$0.10 rev</span> · <span class="text-red">$0.049 cost</span> · <span class="text-blue">51% GM</span>
+                </div>
+                <div class="source-truth-tokens">1 token</div>
+              </div>
+              <div class="source-truth-item dimmed">
+                <div class="source-truth-channel">Email (2) <span class="q2-badge">Q2</span></div>
+                <div class="source-truth-values">
+                  <span class="text-green">$0.10 rev</span> · <span class="text-red">$0.021 cost</span> · <span class="text-blue">79% GM</span>
+                </div>
+                <div class="source-truth-tokens">1 token</div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Source of Truth -->
-        <div class="source-truth">
-          <div class="source-truth-label">Source of Truth Reference</div>
-          <div class="source-truth-grid">
-            <div class="source-truth-item">
-              <div class="source-truth-channel">Voice (20s)</div>
-              <div class="source-truth-values">
-                <span class="text-green">$0.20 rev</span> · <span class="text-red">$0.0879 cost</span> · <span class="text-blue">56% GM</span>
-              </div>
-              <div class="source-truth-tokens">2 tokens</div>
-            </div>
-            <div class="source-truth-item">
-              <div class="source-truth-channel">SMS</div>
-              <div class="source-truth-values">
-                <span class="text-green">$0.10 rev</span> · <span class="text-red">$0.049 cost</span> · <span class="text-blue">51% GM</span>
-              </div>
-              <div class="source-truth-tokens">1 token</div>
-            </div>
-            <div class="source-truth-item dimmed">
-              <div class="source-truth-channel">Email (2) <span class="q2-badge">Q2</span></div>
-              <div class="source-truth-values">
-                <span class="text-green">$0.10 rev</span> · <span class="text-red">$0.021 cost</span> · <span class="text-blue">79% GM</span>
-              </div>
-              <div class="source-truth-tokens">1 token</div>
-            </div>
-          </div>
+        <div class="card margin-breakdown">
+          <div class="section-title">Margin Breakdown: Base vs Overage</div>
+          <div class="breakdown-grid" id="breakdownGrid"></div>
         </div>
       </div>
     </div>
   </div>
 
   <script>
-    // Default values
     const DEFAULTS = {
       tokenSeconds: 10,
       tokenPrice: 0.10,
@@ -562,21 +594,20 @@
     };
 
     let plans = [
-      { id: 1, name: 'Starter', price: 2499, includedTokens: 20000, overagePrice: 0.10, actualTokens: 20000 },
-      { id: 2, name: 'Growth', price: 4999, includedTokens: 60000, overagePrice: 0.09, actualTokens: 60000 },
-      { id: 3, name: 'Scale', price: 8999, includedTokens: 120000, overagePrice: 0.08, actualTokens: 120000 },
-      { id: 4, name: 'Enterprise', price: 19999, includedTokens: 275000, overagePrice: 0.07, actualTokens: 275000 },
+      { id: 1, name: 'Starter',    price: 2499,  includedTokens: 25000,  overagePrice: 0.100, actualTokens: 25000 },
+      { id: 2, name: 'Growth',     price: 4999,  includedTokens: 55500,  overagePrice: 0.088, actualTokens: 55500 },
+      { id: 3, name: 'Scale',      price: 8999,  includedTokens: 112500, overagePrice: 0.075, actualTokens: 112500 },
+      { id: 4, name: 'Enterprise', price: 19999, includedTokens: 285000, overagePrice: 0.059, actualTokens: 285000 },
     ];
 
-    // Formatters
     const formatCurrency = (val) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(val);
     const formatCurrencyPrecise = (val) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 4 }).format(val);
     const formatPercent = (val) => `${(val * 100).toFixed(1)}%`;
     const formatNumber = (val) => new Intl.NumberFormat('en-US').format(val);
 
     function getMarginColor(margin) {
-      if (margin < 0.5) return '#ef4444';
-      if (margin < 0.65) return '#eab308';
+      if (margin < 0.35) return '#ef4444';
+      if (margin < 0.50) return '#eab308';
       return '#22c55e';
     }
 
@@ -584,55 +615,61 @@
       return parseFloat(document.getElementById(id).value) || 0;
     }
 
-    function recalculate() {
-      const tokenSeconds = getInputValue('tokenSeconds');
-      const tokenPrice = getInputValue('tokenPrice');
+    function getBlendedCost() {
       const voiceCostPer20s = getInputValue('voiceCostPer20s');
       const smsCostPerToken = getInputValue('smsCostPerToken');
       const emailCostPerToken = getInputValue('emailCostPerToken');
       const mixVoice = getInputValue('mixVoice');
       const mixSms = getInputValue('mixSms');
       const mixEmail = getInputValue('mixEmail');
-
-      // Normalize mix
       const mixTotal = mixVoice + mixSms + mixEmail;
+      const normalizedMix = mixTotal === 0
+        ? { voice: 0.333, sms: 0.333, email: 0.334 }
+        : { voice: mixVoice / mixTotal, sms: mixSms / mixTotal, email: mixEmail / mixTotal };
+      const voiceCostPerToken = voiceCostPer20s / DEFAULTS.voiceTokensPerUnit;
+      return normalizedMix.voice * voiceCostPerToken +
+             normalizedMix.sms * smsCostPerToken +
+             normalizedMix.email * emailCostPerToken;
+    }
+
+    function recalculate() {
+      const mixVoice = getInputValue('mixVoice');
+      const mixSms = getInputValue('mixSms');
+      const mixEmail = getInputValue('mixEmail');
+      const mixTotal = mixVoice + mixSms + mixEmail;
+
       const mixWarning = document.getElementById('mixWarning');
-      const mixTotalSpan = document.getElementById('mixTotal');
-      
       if (Math.abs(mixTotal - 100) > 0.01) {
         mixWarning.style.display = 'block';
-        mixTotalSpan.textContent = mixTotal;
+        document.getElementById('mixTotal').textContent = mixTotal;
       } else {
         mixWarning.style.display = 'none';
       }
 
-      const normalizedMix = mixTotal === 0 
-        ? { voice: 0.333, sms: 0.333, email: 0.334 }
-        : { voice: mixVoice / mixTotal, sms: mixSms / mixTotal, email: mixEmail / mixTotal };
-
-      // Calculate blended cost
-      const voiceCostPerToken = voiceCostPer20s / DEFAULTS.voiceTokensPerUnit;
-      const blendedCostPerToken = 
-        normalizedMix.voice * voiceCostPerToken + 
-        normalizedMix.sms * smsCostPerToken + 
-        normalizedMix.email * emailCostPerToken;
-
+      const blendedCostPerToken = getBlendedCost();
       document.getElementById('blendedCost').textContent = formatCurrencyPrecise(blendedCostPerToken);
 
-      // Calculate plan economics
       let totalRevenue = 0, totalCogs = 0, totalProfit = 0, totalHours = 0;
-
       const tableBody = document.getElementById('plansTable');
       tableBody.innerHTML = '';
+      const breakdownData = [];
 
       plans.forEach(plan => {
         const overageTokens = Math.max(0, plan.actualTokens - plan.includedTokens);
-        const monthlyRevenue = plan.price + (overageTokens * plan.overagePrice);
+        const baseRevenue = plan.price;
+        const overageRevenue = overageTokens * plan.overagePrice;
+        const monthlyRevenue = baseRevenue + overageRevenue;
+        const includedCogs = plan.includedTokens * blendedCostPerToken;
+        const overageCogs = overageTokens * blendedCostPerToken;
         const monthlyCogs = plan.actualTokens * blendedCostPerToken;
         const grossProfit = monthlyRevenue - monthlyCogs;
         const grossMargin = monthlyRevenue > 0 ? grossProfit / monthlyRevenue : 0;
-        const aiHours = (plan.actualTokens * tokenSeconds) / 3600;
+        const aiHours = (plan.actualTokens * getInputValue('tokenSeconds')) / 3600;
         const arr = monthlyRevenue * 12;
+        const baseGM = baseRevenue > 0 ? (baseRevenue - includedCogs) / baseRevenue : 0;
+        const overageGM = overageRevenue > 0 ? (overageRevenue - overageCogs) / overageRevenue : null;
+
+        breakdownData.push({ plan, baseRevenue, overageRevenue, includedCogs, overageCogs, baseGM, overageGM, grossMargin });
 
         totalRevenue += monthlyRevenue;
         totalCogs += monthlyCogs;
@@ -640,44 +677,25 @@
         totalHours += aiHours;
 
         const marginColor = getMarginColor(grossMargin);
-
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td>
-            <input type="text" value="${plan.name}" style="width:100px;font-family:'IBM Plex Sans',sans-serif;font-weight:500" 
-              onchange="updatePlan(${plan.id}, 'name', this.value)">
-          </td>
-          <td>
-            <input type="text" inputmode="numeric" value="${plan.price}" style="width:90px" 
-              onchange="updatePlan(${plan.id}, 'price', parseInt(this.value.replace(/[^0-9]/g,''))||0)">
-          </td>
-          <td>
-            <input type="text" inputmode="numeric" value="${plan.includedTokens}" style="width:100px" 
-              onchange="updatePlan(${plan.id}, 'includedTokens', parseInt(this.value.replace(/[^0-9]/g,''))||0)">
-          </td>
-          <td>
-            <input type="text" inputmode="numeric" value="${plan.actualTokens}" style="width:100px" 
-              onchange="updatePlan(${plan.id}, 'actualTokens', parseInt(this.value.replace(/[^0-9]/g,''))||0)">
-          </td>
+          <td><input type="text" value="${plan.name}" style="width:100px;font-family:'IBM Plex Sans',sans-serif;font-weight:500" onchange="updatePlan(${plan.id}, 'name', this.value)"></td>
+          <td><input type="text" inputmode="numeric" value="${plan.price}" style="width:90px" onchange="updatePlan(${plan.id}, 'price', parseInt(this.value.replace(/[^0-9]/g,''))||0)"></td>
+          <td><input type="text" inputmode="numeric" value="${plan.includedTokens}" style="width:100px" onchange="updatePlan(${plan.id}, 'includedTokens', parseInt(this.value.replace(/[^0-9]/g,''))||0)"></td>
+          <td><input type="text" inputmode="numeric" value="${plan.actualTokens}" style="width:100px" onchange="updatePlan(${plan.id}, 'actualTokens', parseInt(this.value.replace(/[^0-9]/g,''))||0)"></td>
           <td style="color:${overageTokens > 0 ? '#f59e0b' : '#64748b'}">${formatNumber(overageTokens)}</td>
           <td class="text-green">${formatCurrency(monthlyRevenue)}</td>
           <td class="text-red">${formatCurrency(monthlyCogs)}</td>
           <td style="color:${grossProfit >= 0 ? '#22c55e' : '#ef4444'}">${formatCurrency(grossProfit)}</td>
-          <td>
-            <span class="gm-badge" style="color:${marginColor};background:${marginColor}20">
-              ${formatPercent(grossMargin)}
-            </span>
-          </td>
+          <td><span class="gm-badge" style="color:${marginColor};background:${marginColor}20">${formatPercent(grossMargin)}</span></td>
           <td class="text-muted">${aiHours.toFixed(1)}h</td>
           <td class="text-blue">${formatCurrency(arr)}</td>
         `;
         tableBody.appendChild(row);
       });
 
-      // Totals row
       const totalGrossMargin = totalRevenue > 0 ? totalProfit / totalRevenue : 0;
       const totalMarginColor = getMarginColor(totalGrossMargin);
-
       const totalsRow = document.createElement('tr');
       totalsRow.className = 'totals-row';
       totalsRow.innerHTML = `
@@ -685,17 +703,12 @@
         <td class="text-green">${formatCurrency(totalRevenue)}</td>
         <td class="text-red">${formatCurrency(totalCogs)}</td>
         <td style="color:${totalProfit >= 0 ? '#22c55e' : '#ef4444'}">${formatCurrency(totalProfit)}</td>
-        <td>
-          <span class="gm-badge" style="color:${totalMarginColor};background:${totalMarginColor}20">
-            ${formatPercent(totalGrossMargin)}
-          </span>
-        </td>
+        <td><span class="gm-badge" style="color:${totalMarginColor};background:${totalMarginColor}20">${formatPercent(totalGrossMargin)}</span></td>
         <td class="text-muted">${totalHours.toFixed(1)}h</td>
         <td class="text-blue">${formatCurrency(totalRevenue * 12)}</td>
       `;
       tableBody.appendChild(totalsRow);
 
-      // Update summary
       document.getElementById('totalRevenue').textContent = formatCurrency(totalRevenue);
       document.getElementById('totalARR').textContent = formatCurrency(totalRevenue * 12);
       document.getElementById('totalProfit').textContent = formatCurrency(totalProfit);
@@ -703,8 +716,30 @@
       totalGMEl.textContent = formatPercent(totalGrossMargin);
       totalGMEl.style.color = totalMarginColor;
 
-      // Update overage inputs
       renderOverageInputs();
+      renderBreakdown(breakdownData);
+    }
+
+    function renderBreakdown(data) {
+      const container = document.getElementById('breakdownGrid');
+      container.innerHTML = data.map(d => {
+        const overageGMStr = d.overageGM !== null ? formatPercent(d.overageGM) : 'N/A';
+        const overageGMColor = d.overageGM !== null ? getMarginColor(d.overageGM) : '#64748b';
+        return `
+          <div class="breakdown-item">
+            <div class="plan-name">${d.plan.name}</div>
+            <div class="breakdown-row"><span class="label-text">Base fee</span><span class="text-green">${formatCurrency(d.baseRevenue)}</span></div>
+            <div class="breakdown-row"><span class="label-text">Included COGS</span><span class="text-red">${formatCurrency(d.includedCogs)}</span></div>
+            <div class="breakdown-row"><span class="label-text">Base GM%</span><span style="color:${getMarginColor(d.baseGM)}">${formatPercent(d.baseGM)}</span></div>
+            <div class="breakdown-divider"></div>
+            <div class="breakdown-row"><span class="label-text">Overage rev</span><span class="text-green">${formatCurrency(d.overageRevenue)}</span></div>
+            <div class="breakdown-row"><span class="label-text">Overage COGS</span><span class="text-red">${formatCurrency(d.overageCogs)}</span></div>
+            <div class="breakdown-row"><span class="label-text">Overage GM%</span><span style="color:${overageGMColor}">${overageGMStr}</span></div>
+            <div class="breakdown-divider"></div>
+            <div class="breakdown-row"><span class="label-text">Blended GM%</span><span style="color:${getMarginColor(d.grossMargin)};font-weight:600">${formatPercent(d.grossMargin)}</span></div>
+          </div>
+        `;
+      }).join('');
     }
 
     function renderOverageInputs() {
@@ -712,7 +747,7 @@
       container.innerHTML = plans.map(plan => `
         <div class="overage-item">
           <span class="overage-label">${plan.name}:</span>
-          <input type="number" value="${plan.overagePrice}" step="0.01" style="width:70px;padding:6px 8px;font-size:13px"
+          <input type="number" value="${plan.overagePrice}" step="0.005" style="width:70px;padding:6px 8px;font-size:13px"
             onchange="updatePlan(${plan.id}, 'overagePrice', parseFloat(this.value)||0)">
         </div>
       `).join('');
@@ -720,10 +755,7 @@
 
     function updatePlan(id, field, value) {
       const plan = plans.find(p => p.id === id);
-      if (plan) {
-        plan[field] = value;
-        recalculate();
-      }
+      if (plan) { plan[field] = value; recalculate(); }
     }
 
     function applyScenario(key) {
@@ -731,18 +763,14 @@
       document.getElementById('mixVoice').value = s.voice;
       document.getElementById('mixSms').value = s.sms;
       document.getElementById('mixEmail').value = s.email;
-      
       document.querySelectorAll('.btn-scenario').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.scenario === key);
       });
-      
       recalculate();
     }
 
     function clearScenario() {
-      document.querySelectorAll('.btn-scenario').forEach(btn => {
-        btn.classList.remove('active');
-      });
+      document.querySelectorAll('.btn-scenario').forEach(btn => btn.classList.remove('active'));
     }
 
     function resetDefaults() {
@@ -754,67 +782,33 @@
       document.getElementById('mixVoice').value = DEFAULTS.mixVoice;
       document.getElementById('mixSms').value = DEFAULTS.mixSms;
       document.getElementById('mixEmail').value = DEFAULTS.mixEmail;
-
       plans = [
-        { id: 1, name: 'Starter', price: 2499, includedTokens: 20000, overagePrice: 0.10, actualTokens: 20000 },
-        { id: 2, name: 'Growth', price: 4999, includedTokens: 60000, overagePrice: 0.09, actualTokens: 60000 },
-        { id: 3, name: 'Scale', price: 8999, includedTokens: 120000, overagePrice: 0.08, actualTokens: 120000 },
-        { id: 4, name: 'Enterprise', price: 19999, includedTokens: 275000, overagePrice: 0.07, actualTokens: 275000 },
+        { id: 1, name: 'Starter',    price: 2499,  includedTokens: 25000,  overagePrice: 0.100, actualTokens: 25000 },
+        { id: 2, name: 'Growth',     price: 4999,  includedTokens: 55500,  overagePrice: 0.088, actualTokens: 55500 },
+        { id: 3, name: 'Scale',      price: 8999,  includedTokens: 112500, overagePrice: 0.075, actualTokens: 112500 },
+        { id: 4, name: 'Enterprise', price: 19999, includedTokens: 285000, overagePrice: 0.059, actualTokens: 285000 },
       ];
-
       applyScenario('balanced');
     }
 
     function copyAsCSV() {
-      const tokenSeconds = getInputValue('tokenSeconds');
+      const blendedCostPerToken = getBlendedCost();
       const headers = ['Plan', 'Monthly Price', 'Included Tokens', 'Actual Tokens', 'Overage Tokens', 'Monthly Revenue', 'Monthly COGS', 'Gross Profit', 'GM%', 'AI Hours', 'ARR'];
-      
-      const voiceCostPer20s = getInputValue('voiceCostPer20s');
-      const smsCostPerToken = getInputValue('smsCostPerToken');
-      const emailCostPerToken = getInputValue('emailCostPerToken');
-      const mixVoice = getInputValue('mixVoice');
-      const mixSms = getInputValue('mixSms');
-      const mixEmail = getInputValue('mixEmail');
-      const mixTotal = mixVoice + mixSms + mixEmail;
-      const normalizedMix = mixTotal === 0 
-        ? { voice: 0.333, sms: 0.333, email: 0.334 }
-        : { voice: mixVoice / mixTotal, sms: mixSms / mixTotal, email: mixEmail / mixTotal };
-      const voiceCostPerToken = voiceCostPer20s / DEFAULTS.voiceTokensPerUnit;
-      const blendedCostPerToken = 
-        normalizedMix.voice * voiceCostPerToken + 
-        normalizedMix.sms * smsCostPerToken + 
-        normalizedMix.email * emailCostPerToken;
-
       const rows = plans.map(plan => {
         const overageTokens = Math.max(0, plan.actualTokens - plan.includedTokens);
         const monthlyRevenue = plan.price + (overageTokens * plan.overagePrice);
         const monthlyCogs = plan.actualTokens * blendedCostPerToken;
         const grossProfit = monthlyRevenue - monthlyCogs;
         const grossMargin = monthlyRevenue > 0 ? grossProfit / monthlyRevenue : 0;
-        const aiHours = (plan.actualTokens * tokenSeconds) / 3600;
-        
-        return [
-          plan.name,
-          plan.price,
-          plan.includedTokens,
-          plan.actualTokens,
-          overageTokens,
-          monthlyRevenue.toFixed(2),
-          monthlyCogs.toFixed(2),
-          grossProfit.toFixed(2),
-          (grossMargin * 100).toFixed(1) + '%',
-          aiHours.toFixed(1),
-          (monthlyRevenue * 12).toFixed(2),
-        ];
+        const aiHours = (plan.actualTokens * getInputValue('tokenSeconds')) / 3600;
+        return [plan.name, plan.price, plan.includedTokens, plan.actualTokens, overageTokens,
+          monthlyRevenue.toFixed(2), monthlyCogs.toFixed(2), grossProfit.toFixed(2),
+          (grossMargin * 100).toFixed(1) + '%', aiHours.toFixed(1), (monthlyRevenue * 12).toFixed(2)];
       });
-
       const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-      navigator.clipboard.writeText(csv).then(() => {
-        alert('CSV copied to clipboard!');
-      });
+      navigator.clipboard.writeText(csv).then(() => alert('CSV copied to clipboard!'));
     }
 
-    // Initialize
     recalculate();
   </script>
 </body>
