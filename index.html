@@ -7,7 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    
     body {
       min-height: 100vh;
       background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
@@ -15,12 +14,7 @@
       color: #e2e8f0;
       padding: 32px;
     }
-    
-    .container {
-      max-width: 1600px;
-      margin: 0 auto;
-    }
-    
+    .container { max-width: 1600px; margin: 0 auto; }
     input[type="number"], input[type="text"] {
       background: rgba(30, 41, 59, 0.8);
       border: 1px solid rgba(148, 163, 184, 0.2);
@@ -32,393 +26,99 @@
       width: 100%;
       transition: all 0.2s;
     }
-    
     input[type="number"]:focus, input[type="text"]:focus {
       outline: none;
       border-color: #3b82f6;
       box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
     }
-    
-    .btn {
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-weight: 500;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 0.2s;
-      border: none;
-      font-family: 'IBM Plex Sans', sans-serif;
-    }
-    
-    .btn-primary {
-      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-      color: white;
-    }
-    
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-    }
-    
-    .btn-secondary {
-      background: rgba(148, 163, 184, 0.1);
-      color: #94a3b8;
-      border: 1px solid rgba(148, 163, 184, 0.2);
-    }
-    
-    .btn-secondary:hover {
-      background: rgba(148, 163, 184, 0.2);
-      color: #e2e8f0;
-    }
-    
-    .btn-scenario {
-      padding: 8px 16px;
-      border-radius: 6px;
-      font-size: 13px;
-      background: rgba(30, 41, 59, 0.6);
-      color: #94a3b8;
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    .btn-scenario.active {
-      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-      color: white;
-      border-color: transparent;
-    }
-    
-    .btn-scenario:hover:not(.active) {
-      background: rgba(59, 130, 246, 0.2);
-      border-color: #3b82f6;
-    }
-    
-    table {
-      width: 100%;
-      border-collapse: separate;
-      border-spacing: 0;
-    }
-    
-    th {
-      text-align: left;
-      padding: 12px 16px;
-      font-weight: 600;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #64748b;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.1);
-    }
-    
-    td {
-      padding: 16px;
-      border-bottom: 1px solid rgba(148, 163, 184, 0.05);
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 14px;
-    }
-    
-    tr:hover td {
-      background: rgba(59, 130, 246, 0.05);
-    }
-    
-    .card {
-      background: rgba(30, 41, 59, 0.5);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(148, 163, 184, 0.1);
-      border-radius: 16px;
-      padding: 24px;
-    }
-    
-    .label {
-      display: block;
-      font-size: 12px;
-      font-weight: 500;
-      color: #64748b;
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    
-    .section-title {
-      font-size: 14px;
-      font-weight: 600;
-      color: #94a3b8;
-      margin-bottom: 16px;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
-    
-    .metric-value {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 24px;
-      font-weight: 600;
-    }
-    
-    .input-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 16px;
-    }
-    
-    .warning {
-      background: rgba(234, 179, 8, 0.1);
-      border: 1px solid rgba(234, 179, 8, 0.3);
-      color: #eab308;
-      padding: 8px 12px;
-      border-radius: 6px;
-      font-size: 13px;
-      margin-top: 12px;
-    }
-    
-    .header {
-      margin-bottom: 32px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-    
-    .header h1 {
-      font-size: 32px;
-      font-weight: 700;
-      background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    
-    .header p {
-      color: #64748b;
-      margin-top: 8px;
-      font-size: 14px;
-    }
-    
-    .header-buttons {
-      display: flex;
-      gap: 12px;
-    }
-    
-    .main-grid {
-      display: grid;
-      grid-template-columns: 380px 1fr;
-      gap: 24px;
-    }
-    
-    @media (max-width: 1200px) {
-      .main-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    
-    .left-panel {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-    
-    .blended-cost-box {
-      margin-top: 16px;
-      padding: 12px;
-      background: rgba(59, 130, 246, 0.1);
-      border-radius: 8px;
-    }
-    
-    .blended-cost-label {
-      font-size: 11px;
-      color: #64748b;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 4px;
-    }
-    
-    .blended-cost-value {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 20px;
-      color: #3b82f6;
-    }
-    
-    .scenario-buttons {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-    }
-    
-    .summary-card {
-      background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
-    }
-    
-    .summary-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-    
-    .gm-badge {
-      font-weight: 600;
-      padding: 4px 8px;
-      border-radius: 4px;
-    }
-    
-    .table-container {
-      overflow-x: auto;
-    }
-    
-    .overage-section {
-      margin-top: 24px;
-      padding: 16px;
-      background: rgba(15, 23, 42, 0.5);
-      border-radius: 8px;
-    }
-    
-    .overage-grid {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    
-    .overage-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .overage-label {
-      font-size: 13px;
-      color: #64748b;
-    }
-    
-    .source-truth {
-      margin-top: 24px;
-      padding: 16px;
-      background: rgba(59, 130, 246, 0.05);
-      border-radius: 8px;
-      border: 1px solid rgba(59, 130, 246, 0.1);
-    }
-    
-    .source-truth-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: #64748b;
-      margin-bottom: 12px;
-    }
-    
-    .source-truth-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      font-size: 13px;
-    }
-    
-    @media (max-width: 800px) {
-      .source-truth-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-    
-    .source-truth-item {
-      padding: 12px;
-      background: rgba(30, 41, 59, 0.5);
-      border-radius: 6px;
-    }
-    
-    .source-truth-item.dimmed {
-      opacity: 0.6;
-    }
-    
-    .source-truth-channel {
-      color: #94a3b8;
-      margin-bottom: 4px;
-    }
-    
-    .source-truth-values {
-      font-family: 'IBM Plex Mono', monospace;
-    }
-    
-    .source-truth-tokens {
-      margin-top: 8px;
-      font-size: 12px;
-      color: #94a3b8;
-      font-weight: 500;
-      padding-top: 8px;
-      border-top: 1px solid rgba(148, 163, 184, 0.1);
-    }
-    
-    .q2-badge {
-      font-size: 10px;
-      background: rgba(59, 130, 246, 0.2);
-      padding: 2px 6px;
-      border-radius: 4px;
-      color: #3b82f6;
-    }
-    
+    .btn { padding: 10px 20px; border-radius: 8px; font-weight: 500; font-size: 14px; cursor: pointer; transition: all 0.2s; border: none; font-family: 'IBM Plex Sans', sans-serif; }
+    .btn-primary { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4); }
+    .btn-secondary { background: rgba(148, 163, 184, 0.1); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.2); }
+    .btn-secondary:hover { background: rgba(148, 163, 184, 0.2); color: #e2e8f0; }
+    .btn-scenario { padding: 8px 16px; border-radius: 6px; font-size: 13px; background: rgba(30, 41, 59, 0.6); color: #94a3b8; border: 1px solid rgba(148, 163, 184, 0.2); cursor: pointer; transition: all 0.2s; }
+    .btn-scenario.active { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; border-color: transparent; }
+    .btn-scenario:hover:not(.active) { background: rgba(59, 130, 246, 0.2); border-color: #3b82f6; }
+    .vertical-switcher { display: flex; gap: 0; border-radius: 10px; overflow: hidden; border: 1px solid rgba(148, 163, 184, 0.2); width: fit-content; }
+    .btn-vertical { padding: 10px 24px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: all 0.2s; font-family: 'IBM Plex Sans', sans-serif; background: rgba(30, 41, 59, 0.6); color: #64748b; }
+    .btn-vertical.active-mortgage { background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; }
+    .btn-vertical.active-realestate { background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; }
+    .btn-vertical:hover:not(.active-mortgage):not(.active-realestate) { background: rgba(148, 163, 184, 0.15); color: #e2e8f0; }
+    table { width: 100%; border-collapse: separate; border-spacing: 0; }
+    th { text-align: left; padding: 12px 16px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; border-bottom: 1px solid rgba(148, 163, 184, 0.1); }
+    td { padding: 16px; border-bottom: 1px solid rgba(148, 163, 184, 0.05); font-family: 'IBM Plex Mono', monospace; font-size: 14px; }
+    tr:hover td { background: rgba(59, 130, 246, 0.05); }
+    .card { background: rgba(30, 41, 59, 0.5); backdrop-filter: blur(12px); border: 1px solid rgba(148, 163, 184, 0.1); border-radius: 16px; padding: 24px; }
+    .label { display: block; font-size: 12px; font-weight: 500; color: #64748b; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .section-title { font-size: 14px; font-weight: 600; color: #94a3b8; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.1em; }
+    .metric-value { font-family: 'IBM Plex Mono', monospace; font-size: 24px; font-weight: 600; }
+    .input-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; }
+    .warning { background: rgba(234, 179, 8, 0.1); border: 1px solid rgba(234, 179, 8, 0.3); color: #eab308; padding: 8px 12px; border-radius: 6px; font-size: 13px; margin-top: 12px; }
+    .header { margin-bottom: 32px; }
+    .header-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 16px; }
+    .header h1 { font-size: 32px; font-weight: 700; background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .header p { color: #64748b; margin-top: 8px; font-size: 14px; }
+    .main-grid { display: grid; grid-template-columns: 380px 1fr; gap: 24px; }
+    @media (max-width: 1200px) { .main-grid { grid-template-columns: 1fr; } }
+    .left-panel { display: flex; flex-direction: column; gap: 20px; }
+    .blended-cost-box { margin-top: 16px; padding: 12px; background: rgba(59, 130, 246, 0.1); border-radius: 8px; }
+    .blended-cost-label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .blended-cost-value { font-family: 'IBM Plex Mono', monospace; font-size: 20px; color: #3b82f6; }
+    .scenario-buttons { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .summary-card { background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%); }
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .gm-badge { font-weight: 600; padding: 4px 8px; border-radius: 4px; }
+    .table-container { overflow-x: auto; }
+    .overage-section { margin-top: 24px; padding: 16px; background: rgba(15, 23, 42, 0.5); border-radius: 8px; }
+    .overage-grid { display: flex; gap: 16px; flex-wrap: wrap; }
+    .overage-item { display: flex; align-items: center; gap: 8px; }
+    .overage-label { font-size: 13px; color: #64748b; }
+    .source-truth { margin-top: 24px; padding: 16px; background: rgba(59, 130, 246, 0.05); border-radius: 8px; border: 1px solid rgba(59, 130, 246, 0.1); }
+    .source-truth-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-bottom: 12px; }
+    .source-truth-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; font-size: 13px; }
+    @media (max-width: 800px) { .source-truth-grid { grid-template-columns: 1fr; } }
+    .source-truth-item { padding: 12px; background: rgba(30, 41, 59, 0.5); border-radius: 6px; }
+    .source-truth-item.dimmed { opacity: 0.6; }
+    .source-truth-channel { color: #94a3b8; margin-bottom: 4px; }
+    .source-truth-values { font-family: 'IBM Plex Mono', monospace; }
+    .source-truth-tokens { margin-top: 8px; font-size: 12px; color: #94a3b8; font-weight: 500; padding-top: 8px; border-top: 1px solid rgba(148, 163, 184, 0.1); }
+    .q2-badge { font-size: 10px; background: rgba(59, 130, 246, 0.2); padding: 2px 6px; border-radius: 4px; color: #3b82f6; }
     .text-green { color: #22c55e; }
     .text-red { color: #ef4444; }
     .text-blue { color: #3b82f6; }
     .text-yellow { color: #f59e0b; }
     .text-gray { color: #64748b; }
     .text-muted { color: #94a3b8; }
-    
-    .totals-row {
-      background: rgba(59, 130, 246, 0.05);
-    }
-    
-    .totals-row td {
-      font-weight: 600;
-    }
-
-    .margin-breakdown {
-      margin-top: 24px;
-      padding: 16px;
-      background: rgba(15, 23, 42, 0.5);
-      border-radius: 8px;
-      border: 1px solid rgba(148, 163, 184, 0.1);
-    }
-    .breakdown-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-top: 12px;
-    }
-    .breakdown-item {
-      padding: 12px;
-      background: rgba(30, 41, 59, 0.5);
-      border-radius: 6px;
-      font-size: 12px;
-    }
-    .breakdown-item .plan-name {
-      color: #94a3b8;
-      font-weight: 600;
-      margin-bottom: 8px;
-      font-family: 'IBM Plex Sans', sans-serif;
-    }
-    .breakdown-item .breakdown-row {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 4px;
-      font-family: 'IBM Plex Mono', monospace;
-    }
-    .breakdown-item .breakdown-row .label-text {
-      color: #64748b;
-    }
-    .breakdown-divider {
-      border-top: 1px solid rgba(148, 163, 184, 0.1);
-      margin: 6px 0;
-    }
+    .totals-row { background: rgba(59, 130, 246, 0.05); }
+    .totals-row td { font-weight: 600; }
+    .margin-breakdown { padding: 16px; background: rgba(15, 23, 42, 0.5); border-radius: 8px; border: 1px solid rgba(148, 163, 184, 0.1); }
+    .breakdown-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 12px; }
+    .breakdown-item { padding: 12px; background: rgba(30, 41, 59, 0.5); border-radius: 6px; font-size: 12px; }
+    .breakdown-item .plan-name { color: #94a3b8; font-weight: 600; margin-bottom: 8px; font-family: 'IBM Plex Sans', sans-serif; }
+    .breakdown-item .breakdown-row { display: flex; justify-content: space-between; margin-bottom: 4px; font-family: 'IBM Plex Mono', monospace; }
+    .breakdown-item .breakdown-row .label-text { color: #64748b; }
+    .breakdown-divider { border-top: 1px solid rgba(148, 163, 184, 0.1); margin: 6px 0; }
+    .vertical-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-left: 10px; vertical-align: middle; }
+    .badge-mortgage { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+    .badge-realestate { background: rgba(16, 185, 129, 0.2); color: #10b981; }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <div>
-        <h1>Pricing Plan Calculator</h1>
-        <p>Unit Economics & Gross Margin Analysis</p>
-      </div>
-      <div class="header-buttons">
-        <button class="btn btn-secondary" onclick="resetDefaults()">Reset Defaults</button>
-        <button class="btn btn-primary" onclick="copyAsCSV()">Copy as CSV</button>
+      <div class="header-top">
+        <div>
+          <h1>Pricing Plan Calculator <span id="verticalBadge" class="vertical-badge badge-mortgage">Mortgage</span></h1>
+          <p>Unit Economics & Gross Margin Analysis</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+          <div class="vertical-switcher">
+            <button class="btn-vertical active-mortgage" id="btnMortgage" onclick="switchVertical('mortgage')">🏦 Mortgage</button>
+            <button class="btn-vertical" id="btnRealEstate" onclick="switchVertical('realestate')">🏡 Real Estate</button>
+          </div>
+          <button class="btn btn-secondary" onclick="resetDefaults()">Reset Defaults</button>
+          <button class="btn btn-primary" onclick="copyAsCSV()">Copy as CSV</button>
+        </div>
       </div>
     </div>
 
@@ -511,7 +211,7 @@
 
       <div style="display:flex;flex-direction:column;gap:24px;">
         <div class="card" style="overflow:hidden">
-          <div class="section-title" style="margin-bottom:20px">Plan Economics</div>
+          <div class="section-title" style="margin-bottom:20px" id="tableTitle">Plan Economics — Mortgage</div>
           <div class="table-container">
             <table>
               <thead>
@@ -576,15 +276,9 @@
 
   <script>
     const DEFAULTS = {
-      tokenSeconds: 10,
-      tokenPrice: 0.10,
-      voiceCostPer20s: 0.0879,
-      smsCostPerToken: 0.049,
-      emailCostPerToken: 0.021,
-      voiceTokensPerUnit: 2,
-      mixVoice: 51,
-      mixSms: 49,
-      mixEmail: 0,
+      tokenSeconds: 10, tokenPrice: 0.10, voiceCostPer20s: 0.0879,
+      smsCostPerToken: 0.049, emailCostPerToken: 0.021,
+      voiceTokensPerUnit: 2, mixVoice: 51, mixSms: 49, mixEmail: 0,
     };
 
     const SCENARIOS = {
@@ -593,12 +287,23 @@
       allVoice: { voice: 100, sms: 0, email: 0 },
     };
 
-    let plans = [
-      { id: 1, name: 'Starter',    price: 2499,  includedTokens: 25000,  overagePrice: 0.100, actualTokens: 25000 },
-      { id: 2, name: 'Growth',     price: 4999,  includedTokens: 55500,  overagePrice: 0.088, actualTokens: 55500 },
-      { id: 3, name: 'Scale',      price: 8999,  includedTokens: 112500, overagePrice: 0.075, actualTokens: 112500 },
-      { id: 4, name: 'Enterprise', price: 19999, includedTokens: 285000, overagePrice: 0.059, actualTokens: 285000 },
-    ];
+    const VERTICALS = {
+      mortgage: [
+        { id: 1, name: 'Starter',    price: 2499,  includedTokens: 25000,  overagePrice: 0.100, actualTokens: 25000,  lookupPlatform: 'mortgage_platform_starter_monthly',    lookupUsage: 'mortgage_usage_starter_monthly' },
+        { id: 2, name: 'Growth',     price: 4999,  includedTokens: 55500,  overagePrice: 0.088, actualTokens: 55500,  lookupPlatform: 'mortgage_platform_growth_monthly',     lookupUsage: 'mortgage_usage_growth_monthly' },
+        { id: 3, name: 'Scale',      price: 8999,  includedTokens: 112500, overagePrice: 0.075, actualTokens: 112500, lookupPlatform: 'mortgage_platform_scale_monthly',      lookupUsage: 'mortgage_usage_scale_monthly' },
+        { id: 4, name: 'Enterprise', price: 19999, includedTokens: 285000, overagePrice: 0.059, actualTokens: 285000, lookupPlatform: 'mortgage_platform_enterprise_monthly', lookupUsage: 'mortgage_usage_enterprise_monthly' },
+      ],
+      realestate: [
+        { id: 1, name: 'Starter',    price: 499,  includedTokens: 3000,  overagePrice: 0.190, actualTokens: 3000,  lookupPlatform: 'realestate_platform_starter_monthly',    lookupUsage: 'realestate_starter_usage' },
+        { id: 2, name: 'Growth',     price: 999,  includedTokens: 7000,  overagePrice: 0.150, actualTokens: 7000,  lookupPlatform: 'realestate_platform_growth_monthly',     lookupUsage: 'realestate_growth_usage' },
+        { id: 3, name: 'Scale',      price: 1499, includedTokens: 13000, overagePrice: 0.115, actualTokens: 13000, lookupPlatform: 'realestate_platform_scale_monthly',      lookupUsage: 'realestate_scale_usage' },
+        { id: 4, name: 'Enterprise', price: 4999, includedTokens: 50000, overagePrice: 0.085, actualTokens: 50000, lookupPlatform: 'realestate_platform_enterprise_monthly', lookupUsage: 'realestate_enterprise_usage' },
+      ]
+    };
+
+    let currentVertical = 'mortgage';
+    let plans = JSON.parse(JSON.stringify(VERTICALS.mortgage));
 
     const formatCurrency = (val) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(val);
     const formatCurrencyPrecise = (val) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 4 }).format(val);
@@ -611,9 +316,7 @@
       return '#22c55e';
     }
 
-    function getInputValue(id) {
-      return parseFloat(document.getElementById(id).value) || 0;
-    }
+    function getInputValue(id) { return parseFloat(document.getElementById(id).value) || 0; }
 
     function getBlendedCost() {
       const voiceCostPer20s = getInputValue('voiceCostPer20s');
@@ -627,9 +330,20 @@
         ? { voice: 0.333, sms: 0.333, email: 0.334 }
         : { voice: mixVoice / mixTotal, sms: mixSms / mixTotal, email: mixEmail / mixTotal };
       const voiceCostPerToken = voiceCostPer20s / DEFAULTS.voiceTokensPerUnit;
-      return normalizedMix.voice * voiceCostPerToken +
-             normalizedMix.sms * smsCostPerToken +
-             normalizedMix.email * emailCostPerToken;
+      return normalizedMix.voice * voiceCostPerToken + normalizedMix.sms * smsCostPerToken + normalizedMix.email * emailCostPerToken;
+    }
+
+    function switchVertical(vertical) {
+      currentVertical = vertical;
+      plans = JSON.parse(JSON.stringify(VERTICALS[vertical]));
+      const isMortgage = vertical === 'mortgage';
+      document.getElementById('btnMortgage').className = 'btn-vertical' + (isMortgage ? ' active-mortgage' : '');
+      document.getElementById('btnRealEstate').className = 'btn-vertical' + (!isMortgage ? ' active-realestate' : '');
+      const badge = document.getElementById('verticalBadge');
+      badge.textContent = isMortgage ? 'Mortgage' : 'Real Estate';
+      badge.className = 'vertical-badge ' + (isMortgage ? 'badge-mortgage' : 'badge-realestate');
+      document.getElementById('tableTitle').textContent = 'Plan Economics — ' + (isMortgage ? 'Mortgage' : 'Real Estate');
+      recalculate();
     }
 
     function recalculate() {
@@ -637,7 +351,6 @@
       const mixSms = getInputValue('mixSms');
       const mixEmail = getInputValue('mixEmail');
       const mixTotal = mixVoice + mixSms + mixEmail;
-
       const mixWarning = document.getElementById('mixWarning');
       if (Math.abs(mixTotal - 100) > 0.01) {
         mixWarning.style.display = 'block';
@@ -670,7 +383,6 @@
         const overageGM = overageRevenue > 0 ? (overageRevenue - overageCogs) / overageRevenue : null;
 
         breakdownData.push({ plan, baseRevenue, overageRevenue, includedCogs, overageCogs, baseGM, overageGM, grossMargin });
-
         totalRevenue += monthlyRevenue;
         totalCogs += monthlyCogs;
         totalProfit += grossProfit;
@@ -782,18 +494,13 @@
       document.getElementById('mixVoice').value = DEFAULTS.mixVoice;
       document.getElementById('mixSms').value = DEFAULTS.mixSms;
       document.getElementById('mixEmail').value = DEFAULTS.mixEmail;
-      plans = [
-        { id: 1, name: 'Starter',    price: 2499,  includedTokens: 25000,  overagePrice: 0.100, actualTokens: 25000 },
-        { id: 2, name: 'Growth',     price: 4999,  includedTokens: 55500,  overagePrice: 0.088, actualTokens: 55500 },
-        { id: 3, name: 'Scale',      price: 8999,  includedTokens: 112500, overagePrice: 0.075, actualTokens: 112500 },
-        { id: 4, name: 'Enterprise', price: 19999, includedTokens: 285000, overagePrice: 0.059, actualTokens: 285000 },
-      ];
+      plans = JSON.parse(JSON.stringify(VERTICALS[currentVertical]));
       applyScenario('balanced');
     }
 
     function copyAsCSV() {
       const blendedCostPerToken = getBlendedCost();
-      const headers = ['Plan', 'Monthly Price', 'Included Tokens', 'Actual Tokens', 'Overage Tokens', 'Monthly Revenue', 'Monthly COGS', 'Gross Profit', 'GM%', 'AI Hours', 'ARR'];
+      const headers = ['Vertical', 'Plan', 'Monthly Price', 'Included Tokens', 'Actual Tokens', 'Overage Tokens', 'Monthly Revenue', 'Monthly COGS', 'Gross Profit', 'GM%', 'AI Hours', 'ARR', 'Platform Lookup Key', 'Usage Lookup Key'];
       const rows = plans.map(plan => {
         const overageTokens = Math.max(0, plan.actualTokens - plan.includedTokens);
         const monthlyRevenue = plan.price + (overageTokens * plan.overagePrice);
@@ -801,9 +508,11 @@
         const grossProfit = monthlyRevenue - monthlyCogs;
         const grossMargin = monthlyRevenue > 0 ? grossProfit / monthlyRevenue : 0;
         const aiHours = (plan.actualTokens * getInputValue('tokenSeconds')) / 3600;
-        return [plan.name, plan.price, plan.includedTokens, plan.actualTokens, overageTokens,
-          monthlyRevenue.toFixed(2), monthlyCogs.toFixed(2), grossProfit.toFixed(2),
-          (grossMargin * 100).toFixed(1) + '%', aiHours.toFixed(1), (monthlyRevenue * 12).toFixed(2)];
+        return [currentVertical, plan.name, plan.price, plan.includedTokens, plan.actualTokens,
+          overageTokens, monthlyRevenue.toFixed(2), monthlyCogs.toFixed(2),
+          grossProfit.toFixed(2), (grossMargin * 100).toFixed(1) + '%',
+          aiHours.toFixed(1), (monthlyRevenue * 12).toFixed(2),
+          plan.lookupPlatform, plan.lookupUsage];
       });
       const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
       navigator.clipboard.writeText(csv).then(() => alert('CSV copied to clipboard!'));
@@ -813,3 +522,4 @@
   </script>
 </body>
 </html>
+```
